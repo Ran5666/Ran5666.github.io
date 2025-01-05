@@ -199,7 +199,7 @@
                     <img src="義大利麵.jpg" alt="義大利麵">
                     <h3>義大利麵</h3>
                     <p>嚴選進口麵條，搭配特製醬料</p>
-                    <p class="price">NT$ 80</p>
+                    <p class="price">NT$ 65</p>
                 </div>
                 <div class="menu-item">
                     <img src="焗烤土司.jpg" alt="焗烤土司">
@@ -211,7 +211,7 @@
                     <img src="蛋餅.jpg" alt="蛋餅">
                     <h3>蛋餅</h3>
                     <p>外酥內軟，完美口感</p>
-                    <p class="price">NT$ 30</p>
+                    <p class="price">NT$ 40</p>
                 </div>
                 <div class="menu-item">
                     <img src="豬排漢堡.jpg" alt="豬排漢堡">
@@ -235,13 +235,13 @@
                     <img src="三明治.jpg" alt="三明治">
                     <h3>三明治</h3>
                     <p>新鮮食材，營養美味</p>
-                    <p class="price">NT$ 50</p>
+                    <p class="price">NT$ 45</p>
                 </div>
                 <div class="menu-item">
                     <img src="薯條.jpg" alt="薯條">
                     <h3>薯條</h3>
                     <p>黃金酥脆，外酥內軟</p>
-                    <p class="price">NT$ 40</p>
+                    <p class="price">NT$ 35</p>
                 </div>
             </div>
         </section>
@@ -253,7 +253,7 @@
                     <img src="豆漿.jpg" alt="豆漿">
                     <h3>豆漿</h3>
                     <p>天然現磨，香醇濃郁</p>
-                    <p class="price">NT$ 15</p>
+                    <p class="price">NT$ 20</p>
                 </div>
                 <div class="menu-item">
                     <img src="奶茶.jpg" alt="奶茶">
@@ -289,24 +289,34 @@
     </footer>
 
     <script>
-        // 平滑捲動效果
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+        // 下拉選單的控制
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const dropdownContent = document.getElementById('menuDropdown');
+            const dropdownLinks = dropdownContent.querySelectorAll('a');
+
+            // 點擊菜單按鈕時切換下拉選單
+            menuToggle.addEventListener('click', function(e) {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
+                dropdownContent.classList.toggle('show');
+                menuToggle.classList.toggle('active');
+            });
+
+            // 點擊下拉選單項目後關閉選單
+            dropdownLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    dropdownContent.classList.remove('show');
+                    menuToggle.classList.remove('active');
                 });
             });
-        });
 
-        // 捲動時改變導航欄樣式
-        window.addEventListener('scroll', function() {
-            const nav = document.querySelector('.nav');
-            if (window.scrollY > 100) {
-                nav.style.backgroundColor = 'rgba(255,255,255,0.95)';
-            } else {
-                nav.style.backgroundColor = '#fff';
-            }
+            // 點擊頁面其他地方時關閉選單
+            document.addEventListener('click', function(e) {
+                if (!e.target.matches('.menu-toggle') && !dropdownContent.contains(e.target)) {
+                    dropdownContent.classList.remove('show');
+                    menuToggle.classList.remove('active');
+                }
+            });
         });
     </script>
 </body>
