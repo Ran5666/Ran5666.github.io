@@ -1,15 +1,74 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <!-- 前面的 meta 和大部分樣式保持不變 -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>文大早餐店</title>
     <style>
-        /* 保留原有的樣式 */
-        /* ... 省略相同的樣式 ... */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft JhengHei", sans-serif;
+        }
 
-        /* 新增下拉選單相關樣式 */
+        header {
+            background-color: #FF9F1C;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hero {
+            background-image: url('photo.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            background-color: rgba(0,0,0,0.6);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .nav {
+            background: #fff;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        /* 下拉選單樣式 */
         .nav-item {
             position: relative;
             display: inline-block;
@@ -19,10 +78,9 @@
             display: none;
             position: absolute;
             background-color: white;
-            min-width: 160px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            padding: 0.5rem 0;
+            min-width: 120px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 4px;
             z-index: 1000;
         }
 
@@ -32,116 +90,192 @@
 
         .dropdown-content a {
             color: #333;
-            padding: 12px 16px;
+            padding: 10px 15px;
             text-decoration: none;
             display: block;
-            transition: background-color 0.3s;
         }
 
         .dropdown-content a:hover {
-            background-color: #f1f1f1;
+            background-color: #f5f5f5;
         }
 
-        .menu-section {
-            display: none;
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
         }
 
-        .menu-section.active {
-            display: block;
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
         }
 
-        .menu-nav {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
+        .menu-item {
+            background: #fff;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
         }
 
-        .menu-nav button {
-            background-color: #FF9F1C;
+        .menu-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .menu-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            color: #FF9F1C;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+        }
+
+        .info {
+            background: #f5f5f5;
+            padding: 2rem;
+            margin-top: 2rem;
+            border-radius: 8px;
+        }
+
+        footer {
+            background: #333;
             color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            transition: background-color 0.3s;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
         }
 
-        .menu-nav button:hover {
-            background-color: #e88f0c;
+        @media (max-width: 768px) {
+            .menu {
+                grid-template-columns: 1fr;
+            }
+            header h1 {
+                font-size: 2.5rem;
+            }
+            .hero h2 {
+                font-size: 1.8rem;
+                padding: 0.8rem 1.5rem;
+            }
         }
-
-        .menu-nav button.active {
-            background-color: #e88f0c;
-        }
-
     </style>
 </head>
 <body>
-    <!-- Header 部分保持不變 -->
     <header>
         <h1>文大早餐店</h1>
         <p>用愛心製作的美味早餐</p>
     </header>
 
-    <!-- 更新導航欄，添加下拉選單 -->
     <nav class="nav">
         <ul>
             <li class="nav-item">
                 <a href="#menu">菜單</a>
                 <div class="dropdown-content">
-                    <a href="#" onclick="showMenu('meals')">主食</a>
-                    <a href="#" onclick="showMenu('drinks')">飲品</a>
+                    <a href="#meals">主食</a>
+                    <a href="#drinks">飲品</a>
                 </div>
             </li>
             <li><a href="#info">店家資訊</a></li>
         </ul>
     </nav>
 
-    <!-- Hero 部分保持不變 -->
     <div class="hero">
         <h2>新鮮食材<br>美味早餐</h2>
     </div>
 
     <div class="content">
-        <section id="menu">
-            <h2>菜單</h2>
-            <div class="menu-nav">
-                <button onclick="showMenu('meals')" class="active">主食</button>
-                <button onclick="showMenu('drinks')">飲品</button>
-            </div>
-
-            <!-- 主食菜單 -->
-            <div id="meals" class="menu-section active">
-                <div class="menu">
-                    <!-- 原有的主食項目 -->
-                    <div class="menu-item">
-                        <img src="義大利麵.jpg" alt="義大利麵">
-                        <h3>義大利麵</h3>
-                        <p>嚴選進口麵條，搭配特製醬料</p>
-                        <p class="price">NT$ 80</p>
-                    </div>
-                    <!-- ... 其他主食項目 ... -->
+        <section id="meals">
+            <h2>主食</h2>
+            <div class="menu">
+                <div class="menu-item">
+                    <img src="義大利麵.jpg" alt="義大利麵">
+                    <h3>義大利麵</h3>
+                    <p>嚴選進口麵條，搭配特製醬料</p>
+                    <p class="price">NT$ 80</p>
                 </div>
-            </div>
-
-            <!-- 飲品菜單 -->
-            <div id="drinks" class="menu-section">
-                <div class="menu">
-                    <!-- 原有的飲品項目 -->
-                    <div class="menu-item">
-                        <img src="豆漿.jpg" alt="豆漿">
-                        <h3>豆漿</h3>
-                        <p>天然現磨，香醇濃郁</p>
-                        <p class="price">NT$ 15</p>
-                    </div>
-                    <!-- ... 其他飲品項目 ... -->
+                <div class="menu-item">
+                    <img src="焗烤土司.jpg" alt="焗烤土司">
+                    <h3>焗烤土司</h3>
+                    <p>香濃起司配上酥脆土司</p>
+                    <p class="price">NT$ 50</p>
+                </div>
+                <div class="menu-item">
+                    <img src="蛋餅.jpg" alt="蛋餅">
+                    <h3>蛋餅</h3>
+                    <p>外酥內軟，完美口感</p>
+                    <p class="price">NT$ 30</p>
+                </div>
+                <div class="menu-item">
+                    <img src="豬排漢堡.jpg" alt="豬排漢堡">
+                    <h3>豬排漢堡</h3>
+                    <p>酥脆豬排配上新鮮生菜</p>
+                    <p class="price">NT$ 50</p>
+                </div>
+                <div class="menu-item">
+                    <img src="蘿蔔糕.jpg" alt="蘿蔔糕">
+                    <h3>蘿蔔糕</h3>
+                    <p>手工製作，香煎至金黃</p>
+                    <p class="price">NT$ 40</p>
+                </div>
+                <div class="menu-item">
+                    <img src="蔥油餅.jpg" alt="蔥油餅">
+                    <h3>蔥油餅</h3>
+                    <p>香酥可口，蔥香四溢</p>
+                    <p class="price">NT$ 40</p>
+                </div>
+                <div class="menu-item">
+                    <img src="三明治.jpg" alt="三明治">
+                    <h3>三明治</h3>
+                    <p>新鮮食材，營養美味</p>
+                    <p class="price">NT$ 50</p>
+                </div>
+                <div class="menu-item">
+                    <img src="薯條.jpg" alt="薯條">
+                    <h3>薯條</h3>
+                    <p>黃金酥脆，外酥內軟</p>
+                    <p class="price">NT$ 40</p>
                 </div>
             </div>
         </section>
 
-        <!-- Info 部分保持不變 -->
+        <section id="drinks">
+            <h2>飲品</h2>
+            <div class="menu">
+                <div class="menu-item">
+                    <img src="豆漿.jpg" alt="豆漿">
+                    <h3>豆漿</h3>
+                    <p>天然現磨，香醇濃郁</p>
+                    <p class="price">NT$ 15</p>
+                </div>
+                <div class="menu-item">
+                    <img src="奶茶.jpg" alt="奶茶">
+                    <h3>奶茶</h3>
+                    <p>精選茶葉，香濃順口</p>
+                    <p class="price">NT$ 20</p>
+                </div>
+                <div class="menu-item">
+                    <img src="紅茶.jpg" alt="紅茶">
+                    <h3>紅茶</h3>
+                    <p>特選紅茶，清香回甘</p>
+                    <p class="price">NT$ 20</p>
+                </div>
+                <div class="menu-item">
+                    <img src="綠茶.jpg" alt="綠茶">
+                    <h3>綠茶</h3>
+                    <p>清爽茶香，回味無窮</p>
+                    <p class="price">NT$ 20</p>
+                </div>
+            </div>
+        </section>
+
         <section id="info" class="info">
             <h2>店家資訊</h2>
             <p>地址：111台北市士林區華岡路55號</p>
@@ -155,7 +289,7 @@
     </footer>
 
     <script>
-        // 原有的平滑捲動和導航欄效果保持不變
+        // 平滑捲動效果
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -165,23 +299,7 @@
             });
         });
 
-        // 新增菜單切換功能
-        function showMenu(type) {
-            // 隱藏所有菜單
-            document.querySelectorAll('.menu-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            
-            // 顯示選中的菜單
-            document.getElementById(type).classList.add('active');
-
-            // 更新按鈕狀態
-            document.querySelectorAll('.menu-nav button').forEach(button => {
-                button.classList.remove('active');
-            });
-            event.target.classList.add('active');
-        }
-
+        // 捲動時改變導航欄樣式
         window.addEventListener('scroll', function() {
             const nav = document.querySelector('.nav');
             if (window.scrollY > 100) {
